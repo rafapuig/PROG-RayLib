@@ -1,9 +1,7 @@
 import static com.raylib.Colors.*;
+import static com.raylib.Helpers.newColor;
 import static com.raylib.Helpers.newVector2;
 import static com.raylib.Raylib.*;
-
-final int screenHeight = 1080;
-final int screenWidth = screenHeight; // * 16 / 9;
 
 private static class FivePointedStar {
     // Five-pointed star
@@ -15,18 +13,16 @@ private static class FivePointedStar {
     static final float angle54 = (180f - interPeakArcDegrees) / 2f; // Triángulo isosceles entre 2 picos y el centro
     static final float innerRadiusProportion = (float) (Math.sin(Math.toRadians(angle18)) / Math.sin(Math.toRadians(angle54)));
 
-    private final float radius;
+    private float radius;
     final Vector2 peaks = new Vector2(NUM_POINTS);
     final Vector2 inners = new Vector2(NUM_POINTS);
 
-    private final float firstPeakAngle;
-    private final float innerRadius;
+    private float firstPeakAngle;
+    private float innerRadius;
 
     FivePointedStar(float radius, float firstPeakAngle) {
         this.firstPeakAngle = DEFAULT_FIRST_PEAK_ANGLE;
-        this.radius = radius;
-        this.innerRadius = radius * innerRadiusProportion;
-        generate();
+        setRadius(radius);
     }
 
     FivePointedStar(float radius) {
@@ -35,6 +31,21 @@ private static class FivePointedStar {
 
     float getRadius() {
         return radius;
+    }
+
+    void setRadius(float radius) {
+        this.radius = radius;
+        this.innerRadius = radius * innerRadiusProportion;
+        generate();
+    }
+
+    float getFirstPeakAngle() {
+        return firstPeakAngle;
+    }
+
+    void setFirstPeakAngle(float firstPeakAngle) {
+        this.firstPeakAngle = firstPeakAngle;
+        generate();
     }
 
     float getInnerRadius() {
@@ -67,23 +78,34 @@ private static class FivePointedStar {
 
 }
 
+final int screenHeight = 1080;
+final int screenWidth = screenHeight; // * 16 / 9;
+
+
 void main() {
     InitWindow(screenWidth, screenHeight, "Estrella de 5 puntas");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
-
     // Posición donde ubicar el centro de la estrella
     Vector2 position = newVector2(screenWidth / 2f, screenHeight / 2f);
 
-    FivePointedStar star = new FivePointedStar(300f);
+    float starRadius = 300f;
+    FivePointedStar star = new FivePointedStar(starRadius);
 
     boolean debugMode = false;
+    Color blue = newColor(0, 40, 104, 255);
+    float rotationSpeed = 90f; // degrees / segundo
+
     while (!WindowShouldClose()) {
 
-        if(IsKeyPressed(KEY_D)) debugMode = !debugMode;
+        if (IsKeyPressed(KEY_D)) debugMode = !debugMode;
+        if (IsKeyPressed(KEY_UP)) star.setRadius(starRadius *= 1.25f);
+        if (IsKeyPressed(KEY_DOWN)) star.setRadius(starRadius /= 1.25f);
+        if (IsKeyDown(KEY_LEFT)) star.setFirstPeakAngle(star.getFirstPeakAngle() + rotationSpeed * GetFrameTime());
+        if (IsKeyDown(KEY_RIGHT)) star.setFirstPeakAngle(star.getFirstPeakAngle() - rotationSpeed * GetFrameTime());
 
         BeginDrawing();
-        ClearBackground(DARKGRAY);
+        ClearBackground(blue);
 
         //Dibujar la circunferencia externa
         if (debugMode) DrawCircleLinesV(position, star.getRadius(), LIGHTGRAY);
@@ -101,14 +123,15 @@ void main() {
             DrawTriangle(position, innerPosition, peakPosition, WHITE);
             DrawTriangle(position, nextPeakPosition, innerPosition, RAYWHITE);
 
-            if(debugMode) {
+            if (debugMode) {
                 DrawCircleV(peakPosition, 8f, GOLD);
                 DrawCircleV(innerPosition, 8f, BEIGE);
             }
         }
 
         // Dibujar la circunferencia interior
-        if(debugMode) DrawCircleLinesV(position, star.getInnerRadius(), LIGHTGRAY);
+        if (debugMode) DrawCircleLinesV(position, star.getInnerRadius(), LIGHTGRAY);
+        DrawFPS(20, 20);
         EndDrawing();
     }
     CloseWindow();

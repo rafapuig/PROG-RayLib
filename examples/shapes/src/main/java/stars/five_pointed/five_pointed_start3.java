@@ -1,48 +1,52 @@
+/**
+ * En esta versión
+ * La información de la estrella la almacenamos en un solo array de vertices consecutivos (punta, interior, punta, ...)
+ * Los vertices de la estrella se generan y almacenan en sentido antihorario
+ */
+
 import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newVector2;
 import static com.raylib.Raylib.*;
+import static stars.five_pointed.FivePointerStarConstants.*;
 
 final int screenHeight = 1080;
 final int screenWidth = screenHeight; // * 16 / 9;
 
 // Five-pointed star
-final int NUM_POINTS = 5;
+final Vector2 points = new Vector2(NUM_VERTICES);
 final float radius = 300;
-final Vector2 points = new Vector2(NUM_POINTS * 2);
-
-final float firstPeakAngle = 90f;
-final float interPeakArcDegrees = 360f / NUM_POINTS; // 72º
-final float interPointArcDegrees = interPeakArcDegrees / 2;
-final float angle18 = interPeakArcDegrees / 2 / 2;
-final float angle54 = (180 - interPeakArcDegrees) / 2; // Triángulo isosceles entre 2 picos y el centro
-final float innerRadiusProportion = (float) (Math.sin(Math.toRadians(angle18)) / Math.sin(Math.toRadians(angle54)));
-final float innerRadius = radius * innerRadiusProportion;
+final float innerRadius = radius * INNER_TO_OUTER_RADIUS_RATIO;
 
 void main() {
     InitWindow(screenWidth, screenHeight, "Estrella de 5 puntas");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
-    // Generar la estrella de 5 puntas
-
-    float angleDegrees = firstPeakAngle;
+    // Generar la estrella de 5 puntas en sentido antihorario
+    float angleDegrees = START_ANGLE_DEGREES;
     // Para cada punto de la estrella
-    for (int i = 0; i < NUM_POINTS * 2; i++) {
+    for (int i = 0; i < NUM_VERTICES; i++) {
 
         final float angleRadians = (float) Math.toRadians(angleDegrees);
-        final float pointRadius = radius * (i % 2 == 0 ? 1 : innerRadiusProportion);
+        final float pointRadius = radius * (i % 2 == 0 ? 1 : INNER_TO_OUTER_RADIUS_RATIO);
 
-        points.position(i)
-                .x((float) (pointRadius * Math.cos(angleRadians)))
-                .y((float) (pointRadius * -Math.sin(angleRadians)));
+        points.position(i).x((float) (pointRadius * Math.cos(angleRadians))).y((float) (pointRadius * -Math.sin(angleRadians)));
 
         /* El siguiente punto se encuentra avanzando un arco de 360/5 grados
-        en sentido anti-horario */
-        angleDegrees += interPointArcDegrees; // 36º
+        en sentido antihorario (counter-clockwise) */
+        angleDegrees += ANGLE_BETWEEN_VERTICES_DEGREES; // 36º
     }
 
     Vector2 position = newVector2(screenWidth / 2f, screenHeight / 2f);
 
+
+    // Inicializar el modo depuración (a falso)
+    boolean debugMode = false;
+
     while (!WindowShouldClose()) {
+
+        // Sí se presiona la tecla D toggle (alternar) el modo depuración
+        if (IsKeyPressed(KEY_D)) debugMode = !debugMode;
+
         BeginDrawing();
         ClearBackground(DARKGRAY);
         DrawCircleLinesV(position, radius, LIGHTGRAY);
