@@ -89,9 +89,14 @@ void drawStar(Star star) {
     final int totalVertices = Math.toIntExact(star.vertices.capacity());
 
     for (int i = 0; i < totalVertices; i += 2) {
-        Vector2 outer = star.vertices.position(i).getPointer();
-        Vector2 inner = star.vertices.position(i + 1).getPointer();
-        Vector2 nextOuter = star.vertices.position((i + 2) % totalVertices).getPointer();
+        star.vertices.position(i);
+        Vector2 outer = star.vertices.getPointer();
+
+        star.vertices.position(i + 1);
+        Vector2 inner = star.vertices.getPointer();
+
+        star.vertices.position((i + 2) % totalVertices);
+        Vector2 nextOuter = star.vertices.getPointer();
 
         DrawTriangle(star.center, outer, inner, RAYWHITE);
         DrawTriangle(star.center, inner, nextOuter, WHITE);
