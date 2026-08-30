@@ -10,15 +10,21 @@ final int screenWidth = screenHeight; // * 16 / 9;
 final int NUM_POINTS = 5;
 final Vector2 outerVertices = new Vector2(NUM_POINTS);
 final Vector2 innerVertices = new Vector2(NUM_POINTS);
-final float firstPeakAngle = 90f;
-final float interPeakArcDegrees = 360f / NUM_POINTS; // 72º
-final float angle18 = interPeakArcDegrees / 2f / 2f;
-final float angle54 = (180f - interPeakArcDegrees) / 2f; // Triángulo isosceles entre 2 picos y el centro
-final float innerRadiusProportion = (float) (Math.sin(Math.toRadians(angle18)) / Math.sin(Math.toRadians(angle54)));
-float radius = 300f;
-final float innerRadius = radius * innerRadiusProportion;
+
+final float START_ANGLE_DEGREES = 90f;
+final float ANGLE_BETWEEN_TIPS_DEGREES = 360f / NUM_POINTS; // 72º
+final float ANGLE_BETWEEN_VERTICES_DEGREES = ANGLE_BETWEEN_TIPS_DEGREES / 2f; // 36º
+final float RADIUS_RATIO_INNER_ANGLE_DEGREES = ANGLE_BETWEEN_TIPS_DEGREES / 2f / 2f;
+final float RADIUS_RATIO_OUTER_ANGLE_DEGREES = (180f - ANGLE_BETWEEN_TIPS_DEGREES) / 2f; // Triángulo isosceles entre 2 picos y el centro
+final float INNER_TO_OUTER_RADIUS_RATIO =
+        (float) (Math.sin(Math.toRadians(RADIUS_RATIO_INNER_ANGLE_DEGREES))
+                / Math.sin(Math.toRadians(RADIUS_RATIO_OUTER_ANGLE_DEGREES)));
+
+final float radius = 300f;
+final float innerRadius = radius * INNER_TO_OUTER_RADIUS_RATIO;
 
 final Color UNION_JACK_BLUE = newColor(1, 33, 105, 255);
+
 
 void main() {
     InitWindow(screenWidth, screenHeight, "Estrella de 5 puntas");
@@ -26,31 +32,38 @@ void main() {
 
     // Generar la estrella de 5 puntas en el punto origen (0,0) como centro
 
-    float peakAngleDegrees = firstPeakAngle;
-    // Para cada punto de la estrella
+    // Angulo inicial del primer vértice exterior (punta)
+    float outerVertexAngleDegrees = START_ANGLE_DEGREES;
+
+    // Para cada punta de la estrella
     for (int i = 0; i < NUM_POINTS; i++) {
-        final float peakAngleRadians = (float) Math.toRadians(peakAngleDegrees);
+
+        // Obtener el ángulo equivalente en radianes
+        final float outerVertexAngleRadians = (float) Math.toRadians(outerVertexAngleDegrees);
+
         outerVertices.position(i)
-                .x((float) (radius * Math.cos(peakAngleRadians)))
-                .y((float) (radius * -Math.sin(peakAngleRadians)));
+                .x((float) (radius * Math.cos(outerVertexAngleRadians)))
+                .y((float) (radius * -Math.sin(outerVertexAngleRadians)));
 
         /* El punto interior o valle se encuentra avanzando en sentido horario 36º */
-        final float innerAngleDegrees = peakAngleDegrees - interPeakArcDegrees / 2f;
-        final float innerAngleRadians = (float) Math.toRadians(innerAngleDegrees);
+        final float innerVertexAngleDegrees = outerVertexAngleDegrees - ANGLE_BETWEEN_VERTICES_DEGREES;
+        final float innerVertexAngleRadians = (float) Math.toRadians(innerVertexAngleDegrees);
 
         innerVertices.position(i)
-                .x(innerRadius * (float) Math.cos(innerAngleRadians))
-                .y(innerRadius * (float) -Math.sin(innerAngleRadians));
+                .x(innerRadius * (float) Math.cos(innerVertexAngleRadians))
+                .y(innerRadius * (float) -Math.sin(innerVertexAngleRadians));
 
         /* El siguiente punto se encuentra avanzando un arco de 360/5 grados
-        en sentido horario (por se resta) */
-        peakAngleDegrees -= interPeakArcDegrees; // 72º
+        entre dos puntas de estrella consecutivas en sentido horario (por eso se resta) */
+        outerVertexAngleDegrees -= ANGLE_BETWEEN_TIPS_DEGREES; // 72º
     }
 
     // Posición donde dibujar el centro de la estrella
-    Vector2 position = newVector2(screenWidth / 2f, screenHeight / 2f);
+    Vector2 starCenterPosition = newVector2(screenWidth / 2f, screenHeight / 2f);
 
+    // Inicializar el modo depuración (a falso)
     boolean debugMode = false;
+
     while (!WindowShouldClose()) {
 
         if(IsKeyPressed(KEY_D)) debugMode = !debugMode;
@@ -59,30 +72,31 @@ void main() {
         ClearBackground(UNION_JACK_BLUE);
 
         //Dibujar la circunferencia externa
-        if (debugMode) DrawCircleLinesV(position, radius, LIGHTGRAY);
+        if (debugMode) DrawCircleLinesV(starCenterPosition, radius, LIGHTGRAY);
 
-        // Dibujar la estrella
+        // Dibujar la estrella en sentido horario
         for (int i = 0; i < NUM_POINTS; i++) { // Por cada punto (pico) de la estrella
-            final Vector2 inner = innerVertices.position(i).getPointer();
-            final Vector2 peak = outerVertices.position(i).getPointer();
-            final Vector2 nextPeak = outerVertices.position((i + 1) % NUM_POINTS).getPointer();
+            final Vector2 innerVertex = innerVertices.position(i).getPointer();
+            final Vector2 outerVertex = outerVertices.position(i).getPointer();
+            final Vector2 nextClockwiseOuterVertex = outerVertices.position((i + 1) % NUM_POINTS).getPointer();
 
             // Trasladar cada punto a la posicion del centro
-            final Vector2 innerPosition = Vector2Add(position, inner);
-            final Vector2 peakPosition = Vector2Add(position, peak);
-            final Vector2 nextPeakPosition = Vector2Add(position, nextPeak);
+            final Vector2 innerVertexPosition = Vector2Add(starCenterPosition, innerVertex);
+            final Vector2 outerVertexPosition = Vector2Add(starCenterPosition, outerVertex);
+            final Vector2 nextClockwiseOuterVertexPosition = Vector2Add(starCenterPosition, nextClockwiseOuterVertex);
 
-            DrawTriangle(position, innerPosition, peakPosition, WHITE);
-            DrawTriangle(position, nextPeakPosition, innerPosition, RAYWHITE);
+            DrawTriangle(starCenterPosition, innerVertexPosition, outerVertexPosition, WHITE);
+            DrawTriangle(starCenterPosition, nextClockwiseOuterVertexPosition, innerVertexPosition, RAYWHITE);
 
             if(debugMode) {
-                DrawCircleV(peakPosition, 8f, GOLD);
-                DrawCircleV(innerPosition, 8f, BEIGE);
+                DrawCircleV(outerVertexPosition, 8f, GOLD);
+                DrawCircleV(innerVertexPosition, 8f, BEIGE);
             }
         }
 
         // Dibujar la circunferencia interior
-        if(debugMode) DrawCircleLinesV(position, innerRadius, LIGHTGRAY);
+        if(debugMode) DrawCircleLinesV(starCenterPosition, innerRadius, LIGHTGRAY);
+
         EndDrawing();
     }
     CloseWindow();

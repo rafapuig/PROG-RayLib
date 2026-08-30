@@ -22,6 +22,8 @@ void main() {
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     // Generar la estrella de 5 puntas
+
+    // Angulo inicial del primer vértice exterior (punta)
     float angleDegrees = START_ANGLE_DEGREES;
 
     // Para cada vértice de la estrella

@@ -27,6 +27,8 @@ void main() {
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     // Generar la estrella de 5 puntas
+
+    // Angulo inicial del primer vértice exterior (punta)
     float angleDegrees = START_ANGLE_DEGREES;
 
     // Para cada vértice de la estrella
@@ -47,7 +49,8 @@ void main() {
         // Escalamos el vértice de la estrella según su radio normalizado
         vertex.put(Vector2Scale(vertex, vertexRadius));
 
-        /* El siguiente vértice se encuentra avanzando un arco de 360/10 grados en sentido antihorario */
+        /* El siguiente vértice se encuentra avanzando un arco de 360/10 grados
+        en sentido antihorario (counter-clockwise) */
         angleDegrees += ANGLE_BETWEEN_VERTICES_DEGREES; // 36º
     }
 

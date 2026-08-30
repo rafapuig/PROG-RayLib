@@ -10,16 +10,21 @@ final int screenWidth = screenHeight; // * 16 / 9;
 final int NUM_POINTS = 5;
 final Vector2 outerVertices = new Vector2(NUM_POINTS);
 final Vector2 innerVertices = new Vector2(NUM_POINTS);
+
 final float START_ANGLE_DEGREES = 90f;
 final float ANGLE_BETWEEN_TIPS_DEGREES = 360f / NUM_POINTS; // 72º
 final float ANGLE_BETWEEN_VERTICES_DEGREES = ANGLE_BETWEEN_TIPS_DEGREES / 2f; // 36º
 final float RADIUS_RATIO_INNER_ANGLE_DEGREES = ANGLE_BETWEEN_VERTICES_DEGREES / 2f; // 18º
 final float RADIUS_RATIO_OUTER_ANGLE_DEGREES = (180f - ANGLE_BETWEEN_TIPS_DEGREES) / 2f; // 54º Triángulo isosceles entre 2 picos y el centro
-final float INNER_TO_OUTER_RADIUS_RATIO = (float) (Math.sin(Math.toRadians(RADIUS_RATIO_INNER_ANGLE_DEGREES)) / Math.sin(Math.toRadians(RADIUS_RATIO_OUTER_ANGLE_DEGREES)));
+final float INNER_TO_OUTER_RADIUS_RATIO =
+        (float) (Math.sin(Math.toRadians(RADIUS_RATIO_INNER_ANGLE_DEGREES))
+                / Math.sin(Math.toRadians(RADIUS_RATIO_OUTER_ANGLE_DEGREES)));
+
 final float outerRadius = 300f;
 final float innerRadius = outerRadius * INNER_TO_OUTER_RADIUS_RATIO;
 
 final Color UNION_JACK_BLUE = newColor(1, 33, 105, 255);
+
 
 void main() {
     InitWindow(screenWidth, screenHeight, "Estrella de 5 puntas");
@@ -92,6 +97,7 @@ void main() {
 
         // Dibujar la circunferencia interior
         if (debugMode) DrawCircleLinesV(starCenterPosition, innerRadius, LIGHTGRAY);
+
         EndDrawing();
     }
     CloseWindow();
