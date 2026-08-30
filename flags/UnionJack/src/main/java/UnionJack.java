@@ -62,12 +62,18 @@ final float OFFSET_LEFT = OFFSET_HORIZONTAL / 2;
 
 final int NUM_STARS = 50;
 
+record Star(Vector2 center, Vector2 vertices) {
+}
+
 void main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Union Jack");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
-    Vector2[] starsVertices = new Vector2[NUM_STARS];
-    Vector2[] starsCenterLocation = new Vector2[NUM_STARS];
+    //Vector2[] starsVertices = new Vector2[NUM_STARS];
+    //Vector2[] starsCenterLocation = new Vector2[NUM_STARS];
+
+    Star[] stars = new Star[NUM_STARS];
+
     int count = 0;
 
     for (int i = 0; i < NUM_VERTICAL_STARS; i++) {
@@ -85,10 +91,12 @@ void main() {
 
             final Vector2 location = new Vector2().x(x).y(y);
 
-            starsCenterLocation[count] = location;
+            //starsCenterLocation[count] = location;
 
             final var vertices = generateFivePointedStar(location, 0, STAR_RADIUS);
-            starsVertices[count] = vertices;
+            //starsVertices[count] = vertices;
+
+            stars[count] = new Star(location, vertices);
         }
     }
 
@@ -97,19 +105,24 @@ void main() {
         ClearBackground(UNION_JACK_BLUE);
 
         for (int i = 0; i < count; i++) {
-            drawStar(starsCenterLocation[i], starsVertices[i]);
+            drawStar(stars[i].center, stars[i].vertices);
         }
 
         DrawFPS(20, 20);
         EndDrawing();
     }
 
-    for (Vector2 starVertices : starsVertices) {
+    /*for (Vector2 starVertices : starsVertices) {
         starVertices.deallocate();
     }
 
     for (Vector2 starCenter : starsCenterLocation) {
         starCenter.deallocate();
+    }*/
+
+    for (int i = 0; i < count; i++) {
+        stars[i].center.deallocate();
+        stars[i].vertices.deallocate();
     }
 
     CloseWindow();
