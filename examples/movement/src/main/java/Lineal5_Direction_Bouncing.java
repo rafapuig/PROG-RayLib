@@ -20,7 +20,7 @@ final float initialPosY = screenHeight / 2f;
  * Speed es la medida escalar de la velocidad,
  * pero necesitamos calcular en vector Velocity que dependerá de la dirección
  */
-float speed = 700; // pixels por segundo
+float speed = 400; // pixels por segundo
 /**
  * 0 grados -- derecha
  * 90 grados -- abajo
@@ -48,10 +48,9 @@ void main() {
 
     IO.println(velocity.x() + " - " + velocity.y());
 
-    boolean isFirstFrame = true;
     while (!WindowShouldClose()) {
         // Update
-        float deltaTime = isFirstFrame ? 0f : GetFrameTime();
+        float deltaTime = GetFrameTime();
 
         // position = position + velocity * deltaTime;
         position = Vector2Add(position, Vector2Scale(velocity, deltaTime));
@@ -60,13 +59,14 @@ void main() {
         if(position.x() > screenWidth - radius ||position.x() < radius) velocity.x(-velocity.x());
         if(position.y() > screenHeight -radius || position.y() < radius) velocity.y(-velocity.y());
 
-        isFirstFrame = false;
 
         // Draw
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawFPS(20, 20);
+
         DrawCircleV(position, radius, GOLD);
+
+        DrawFPS(20, 20);
         EndDrawing();
     }
     CloseWindow();

@@ -41,7 +41,9 @@ void main() {
     float posY = initialPosY;
 
     // Establecer la dirección en 2D en función del ángulo que orienta la dirección
-    Vector2 direction = newVector2((float) Math.cos(Math.toRadians(angle)), (float) Math.sin(Math.toRadians(angle)));
+    Vector2 direction = newVector2(
+            (float) Math.cos(Math.toRadians(angle)),
+            (float) -Math.sin(Math.toRadians(angle)));
 
     // Calcular la velocidad vectorial velocity = direction * speed
     Vector2 velocity = newVector2(direction.x() * speed, direction.y() * speed);
@@ -55,6 +57,7 @@ void main() {
         // posiciónX = posiciónX + velocidadX * tiempo;
         posX += velocity.x() * deltaTime; // El tiempo que dura en frame  es la inversa de  FPS (1 / FPS)
         posX %= screenWidth;
+
         // posiciónY = posiciónY + velocidadY * tiempo;
         posY += velocity.y() * deltaTime;
         posY %= screenHeight;
@@ -62,8 +65,10 @@ void main() {
         // Draw
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawFPS(20, 20);
+
         DrawCircle((int) posX, (int) posY, radius, ORANGE);
+
+        DrawFPS(20, 20);
         EndDrawing();
     }
     CloseWindow();

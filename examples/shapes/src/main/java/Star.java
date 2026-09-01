@@ -10,23 +10,6 @@ public class Star {
         InitWindow(800, 600, "Estrella de 5 puntas");
         SetTargetFPS(60);
 
-        // Dibujamos los puntos para poder ver cómo funciona
-        /*DrawCircle(400, 300, 5, BLACK);
-
-        DrawCircle(400, 100, 5, BLACK);
-        DrawCircle(459, 281, 5, BLACK);
-
-        DrawCircle(590, 235, 5, BLACK);
-
-        DrawCircle(495, 358, 5, BLACK);
-
-        /*DrawCircle(512, 525, 5, BLACK);
-        DrawCircle(400, 425, 5, BLACK);
-        DrawCircle(288, 525, 5, BLACK);
-        DrawCircle(305, 358, 5, BLACK);
-        DrawCircle(210, 235, 5, BLACK);
-        DrawCircle(341, 281, 5, BLACK);*/
-
         // Centro de la estrella
         float centerX = 400;
         float centerY = 300;
@@ -38,7 +21,7 @@ public class Star {
         // 11 puntos:
         // P0 = centro
         // P1..P10 = 10 vértices de la estrella
-        Vector2 points = new Vector2(11);
+        Vector2 points = new Vector2(12);
 
         // Centro
         points.position(0)
@@ -51,23 +34,28 @@ public class Star {
         // 36 grados en cada punto.
         for (int i = 0; i < 10; i++) {
 
-            double angle = Math.toRadians(-90 + i * 36);
+            double angle = Math.toRadians(90 + i * 36);
 
             float radius = (i % 2 == 0)
                     ? outerRadius
                     : innerRadius;
 
             float x = centerX + (float) Math.cos(angle) * radius;
-            float y = centerY + (float) Math.sin(angle) * radius;
+            float y = centerY + (float) -Math.sin(angle) * radius;
 
             points.position(i + 1)
                     .x(x)
                     .y(y);
         }
 
-        // Muy importante:
-        // dejamos el Vector2 apuntando al primer elemento.
-        points.position(0);
+        // Punto 12, otra vez el primer vértice
+        float lastX = points.position(1).x();
+        float lastY = points.position(1).y();
+
+        /*Vector2 last =
+                points.position(1).getPointer(); //.getPointer();
+        points.position(11).put(last);// .x(lastX).y(lastY);*/
+        points.position(11).x(lastX).y(lastY);
 
         while (!WindowShouldClose()) {
 
@@ -77,8 +65,8 @@ public class Star {
 
             // Estrella rellena
             DrawTriangleFan(
-                    points,
-                    11,
+                    points.position(0),
+                    12,
                     RED
             );
 

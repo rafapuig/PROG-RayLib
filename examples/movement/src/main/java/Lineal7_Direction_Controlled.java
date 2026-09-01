@@ -82,9 +82,6 @@ void main() {
                 angle,
                 BEIGE);
 
-        DrawText("Pulsa SPACE para iniciar / detener la simulación",
-                20, screenHeight - 30, 20, RAYWHITE);
-
         EndDrawing();
     }
     CloseWindow();

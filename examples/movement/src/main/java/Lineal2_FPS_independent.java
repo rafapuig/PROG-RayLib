@@ -23,7 +23,7 @@ float speed = 200; // pixels por segundo
 
 void main() {
 
-    InitWindow(screenWidth, screenHeight,"Movimiento lineal");
+    InitWindow(screenWidth, screenHeight,"Movimiento lineal (velocidad no depende del Frame Rate)");
     SetTargetFPS(GetMonitorRefreshRate(1)); // Observar como NO cambia la velocidad cuando cambian los FPS
 
     float posX = initialPosX;
@@ -31,7 +31,7 @@ void main() {
 
     while (!WindowShouldClose()) {
         // Update
-        IO.println(GetFrameTime());
+        //IO.println(GetFrameTime());
         posX += speed * GetFrameTime(); // El tiempo que dura el frame, es la inversa de FPS (1 / FPS)
         posX %= screenWidth;
 

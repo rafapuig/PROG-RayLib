@@ -2,7 +2,7 @@ import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newVector2;
 import static com.raylib.Raylib.*;
 
-// Dimensiones de la pantalla
+
 final int screenHeight = 600;
 final int screenWidth = screenHeight * 16 / 9;
 
@@ -18,7 +18,7 @@ final float initialPosY = screenHeight / 2f;
 float speed = 700; // pixels por segundo
 /**
  * Los ángulos positivos tiene el sentido de agujas del reloj (negativos contra las agujas del reloj)
- *
+ * <p>
  * 0 grados -- derecha
  * 90 grados -- abajo
  * 180 grados -- izquierda

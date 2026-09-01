@@ -25,7 +25,7 @@ final float speed = 2; // pixels por frame (dependiente del framerate)
 void main() {
 
     InitWindow(screenWidth, screenHeight, "Movimiento lineal");
-    SetTargetFPS(100); // Observar como cambia la velocidad cuando cambian los FPS
+    SetTargetFPS(GetMonitorRefreshRate(1)); // Observar como cambia la velocidad cuando cambian los FPS
 
     float posX = initialPosX;
     float posY = initialPosY;
@@ -38,8 +38,10 @@ void main() {
         // Draw
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawFPS(20, 20);
+
         DrawCircle((int) posX, (int) posY, radius, ORANGE);
+
+        DrawFPS(20, 20);
         EndDrawing();
     }
     CloseWindow();
