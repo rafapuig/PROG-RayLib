@@ -12,6 +12,8 @@ void main() {
 
     final int playerSize = 50 * 2;
 
+    final int playerSpeed = 4;
+
     Rectangle player = new Rectangle()
             .x(400)
             .y(280)
@@ -31,25 +33,32 @@ void main() {
             .offset(newVector2(screenWidth / 2f, screenHeight / 2f))
             // Con qué nivel de escala
             .zoom(1.f)
-            .rotation(5f);
+            // Y rotación en grados clockwise
+            .rotation(0f);
 
     while (!WindowShouldClose()) {
 
         // Update
-        if (IsKeyDown(KEY_RIGHT)) player.x(player.x() + 2);
-        if (IsKeyDown(KEY_LEFT)) player.x(player.x() - 2);
+        if (IsKeyDown(KEY_RIGHT)) player.x(player.x() + playerSpeed);
+        if (IsKeyDown(KEY_LEFT)) player.x(player.x() - playerSpeed);
 
         // La cámara sigue al player
         camera.target()
                 .x(player.x() + playerSize / 2f)
                 .y(player.y() + playerSize / 2f);
 
+        double zoom;
+        zoom = Math.exp(Math.log(camera.zoom() + GetMouseWheelMove() * 0.1f));
+        zoom = !Double.isNaN(zoom) ? zoom : 0.0f;
+        zoom = Math.clamp(zoom, 0.1f, 3.0f);
+        camera.zoom((float) zoom);
+
 
         BeginDrawing();
         ClearBackground(DARKGRAY);
 
         BeginMode2D(camera);
-        DrawRectangleRec(building, YELLOW);
+        DrawRectangleRec(building, GOLD);
         DrawRectangleRec(player, RED);
         EndMode2D();
 
