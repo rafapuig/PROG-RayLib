@@ -15,21 +15,21 @@ final float initialPosY = screenHeight / 2f;
 /**
  * Speed es la medida escalar de la velocidad,
  * pero necesitamos calcular el vector Velocity,
- * <p>
+ *
  * Velocity es una medida vectorial, (2D en este caso)
  * que dependerá del vector de la dirección 2D
- * <p>
+ *
  * Velocity = direction * speed
  */
-float speed = 200; // pixels por segundo, medida escalar
+float speed = 200f; // pixels por segundo, medida escalar
 /**
  * Los ángulos positivos tiene el sentido de agujas del reloj (negativos contra las agujas del reloj)
- * 0 grados --> derecha
- * 90 grados --> abajo
- * 180 grados --> izquierda
- * 270 grados --> arriba (equivale a -90)
+ * 0 grados -- derecha
+ * 90 grados -- abajo
+ * 180 grados -- izquierda
+ * 270 grados -- arriba (equivale a -90)
  */
-float angle = 30; // Ángulo que indica la dirección del movimiento
+float angle = 30f; // Ángulo que indica la dirección del movimiento
 
 void main() {
 
@@ -40,10 +40,14 @@ void main() {
     float posX = initialPosX;
     float posY = initialPosY;
 
+    final Vector2 right = newVector2(1, 0);
+
     // Establecer la dirección en 2D en función del ángulo que orienta la dirección
     Vector2 direction = newVector2(
-            (float) Math.cos(Math.toRadians(angle)),
-            (float) -Math.sin(Math.toRadians(angle)));
+            right.x() * (float) Math.cos(Math.toRadians(angle))
+                    + right.y() * (float) -Math.sin(Math.toRadians(angle)),
+            right.x() * (float) Math.sin(Math.toRadians(angle))
+                    +  right.y() * (float) Math.cos(Math.toRadians(angle)));
 
     // Calcular la velocidad vectorial velocity = direction * speed
     Vector2 velocity = newVector2(direction.x() * speed, direction.y() * speed);

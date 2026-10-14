@@ -28,31 +28,17 @@ final Color GOLD = new Color()
 
 final Color gold = newColor(255, 204, 0, 255);
 
+
 void main() {
 
     InitWindow(screenWidth, screenHeight, "Bandera de Alemania en RayLib");
-    SetTargetFPS(60);
+    SetTargetFPS(GetMonitorRefreshRate(1));
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        /*ClearBackground(GOLD);
+        ClearBackground(GOLD);
         DrawRectangle(0, 0, screenWidth, screenStripeHeight, BLACK);
-        DrawRectangle(0, screenStripeHeight, screenWidth, screenStripeHeight, RED);*/
-
-        /* Implementación mediante bucle for */
-        /*for (int i = 0; i < 3; i++) {
-            var stripeColor = i == 0 ? BLACK : i == 1 ? RED : GOLD;
-            DrawRectangle(0, i * screenStripeHeight, screenWidth, screenStripeHeight, stripeColor);
-        }*/
-
-        /* Implementación mediante una lista de colores y un for-each */
-        var stripeColors = List.of(BLACK, RED, GOLD);
-        int offsetY = 0;
-        for (Color stripeColor : stripeColors) {
-            DrawRectangle(0, offsetY, screenWidth, screenStripeHeight, stripeColor);
-            offsetY += screenStripeHeight;
-        }
-
+        DrawRectangle(0, screenStripeHeight, screenWidth, screenStripeHeight, RED);
         EndDrawing();
     }
     CloseWindow();

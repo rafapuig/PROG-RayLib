@@ -20,7 +20,7 @@ final float initialPosY = screenHeight / 2f;
  *           frame        segundo
  *
  */
-final float speed = 2; // pixels por frame (dependiente del framerate)
+final float speed = 2f; // pixels por frame (dependiente del framerate)
 
 void main() {
 

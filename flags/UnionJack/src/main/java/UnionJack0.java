@@ -6,6 +6,8 @@ import static stars.five_pointed.FivePointerStarConstants.*;
 
 Vector2 generateFivePointedStar(Vector2 location, float rotation, float scale) {
 
+    // Reservamos espacio en memoria para todos los vertices de la estrella
+    // y uno más para la posición central
     Vector2 vertices = new Vector2(NUM_VERTICES + 1);
 
     final float startAngle = START_ANGLE_DEGREES + rotation;
@@ -18,13 +20,13 @@ Vector2 generateFivePointedStar(Vector2 location, float rotation, float scale) {
         vertices.position(i);
 
         float cos = (float) Math.cos(radians);
-        float sin = (float) -Math.sin(radians);
+        float sin = (float) Math.sin(radians);
 
-        final float radius = scale * (i % 2 == 0 ? 1 : INNER_TO_OUTER_RADIUS_RATIO);
+        final float radius = scale * (i % 2 == 0 ? 1f : INNER_TO_OUTER_RADIUS_RATIO);
 
         vertices
                 .x(location.x() + cos * radius)
-                .y(location.y() + sin * radius);
+                .y(location.y() - sin * radius);
 
         radians += angleStep;
     }

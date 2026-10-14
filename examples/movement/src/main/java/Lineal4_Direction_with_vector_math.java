@@ -17,14 +17,14 @@ final float initialPosY = screenHeight / 2f;
  * Speed es la medida escalar de la velocidad,
  * pero necesitamos calcular en vector Velocity que dependerá de la dirección
  */
-float speed = 200; // pixels por segundo
+float speed = 200f; // pixels por segundo
 /**
  * 0 grados -- derecha
  * 90 grados -- abajo
  * 180 grados -- izquierda
  * 270 grados -- arriba (equivale a -90)
  */
-float angle = 30;
+float angle = 30f;
 
 void main() {
 

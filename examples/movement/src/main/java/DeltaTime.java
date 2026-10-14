@@ -28,18 +28,15 @@ void main() {
             SetTargetFPS(currentFps);
         }
 
+        // Actualizar la posición de las bolas
+
         /**
-         * GetFrameTime() devuelve del tiempo que costó dibujar el frame anterior en segundos
-         * Se usa este tiempo (delta time) para mover los objetos a una velocidad independiente del framerate
+         * Se incrementa la x en 10 unidades por cada frame
+         * Si FPS es 60 se incrementa 60 veces en un segundo y cada vez 10 unidades
+         * En un segundo habrá avanzado 10 * 60 = 600 unidades --> velocidad 600 unidades / segundo
+         *
+         * Si los FPS cambian el movimiento de la bola se acelerará o ralentizará
          */
-        float deltaTime = GetFrameTime();
-
-        /* Multiplicar la velocidad por initial FPS es para igual la velocidad inicial de ambas bolas
-         * FPS * deltaTime = FPS * 1 / FPS = 1 (se cancelan)
-         */
-        deltaBall.x(deltaBall.x() + initialFps * speed * deltaTime);
-        if (deltaBall.x() > screenWidth) deltaBall.x(0);
-
         frameBall.x(frameBall.x() + speed);
         if (frameBall.x() > screenWidth) frameBall.x(0);
 
@@ -49,6 +46,19 @@ void main() {
             currentFps = (int) initialFps;
             SetTargetFPS(currentFps);
         }
+
+        /**
+         * GetFrameTime() devuelve del tiempo que costó dibujar el frame anterior en segundos
+         * Se usa este tiempo (delta time) para mover los objetos a una velocidad independiente del framerate
+         */
+        float deltaTime = GetFrameTime();
+
+        /* Multiplicar la velocidad por initial FPS es para igualar la velocidad inicial de ambas bolas
+         * FPS * deltaTime = FPS * 1 / FPS = 1 (se cancelan) initialFps * deltaTime debería ser 1
+         */
+        deltaBall.x(deltaBall.x() + speed * initialFps * deltaTime);
+        if (deltaBall.x() > screenWidth) deltaBall.x(0);
+
 
         // Draw
         BeginDrawing();
@@ -74,7 +84,7 @@ void main() {
                 textOffsetX, 20 + 2 * textLineSpace, fontSize, RAYWHITE);
 
 
-        DrawText("FUNC: x += GetFrameTime() * speed",
+        DrawText("FUNC: x += speed * GetFrameTime()",
                 textOffsetX,
                 (int) (screenHeight / 3f - radius - textMargin),
                 fontSize, PINK);

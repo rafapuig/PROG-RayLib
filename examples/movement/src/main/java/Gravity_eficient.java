@@ -80,14 +80,17 @@ void main() {
 
         // En pausa mostrar el mensaje de pausa
         String message = "PAUSA";
-        int fontSize = 70;
+        int fontSize = 60;
         int messageWidth = MeasureText(message, fontSize);
         if (paused)
             DrawText(message,
                     (GetScreenWidth() - messageWidth) / 2,
-                    (GetScreenHeight() - fontSize) / 2, fontSize, RAYWHITE);
+                    (GetScreenHeight() - fontSize) / 2,
+                    fontSize,
+                    RAYWHITE);
 
-        DrawText("Velocity (%.2f,%.2f".formatted(velocity.x(), velocity.y()), 20, 20, fontSize, GREEN);
+        var text = "Velocity (%.2f,%.2f)".formatted(velocity.x(), velocity.y());
+        DrawText(text, 20, 20, fontSize, GREEN);
 
         DrawFPS(GetScreenWidth() - 110, 20);
         EndDrawing();

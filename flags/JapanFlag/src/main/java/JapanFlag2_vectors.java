@@ -4,13 +4,10 @@
 
 import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
-import static java.lang.Math.acos;
-import static java.lang.Math.ceil;
 
-// fly = distancia desde el asta hasta el extremo libre
-//hoist = longitud del lado junto al asta
-final int fly = 3;
-final int hoist = 2;
+// Constantes relacionadas con la bandera
+final int fly = 3; // fly = distancia desde el asta hasta el extremo libre
+final int hoist = 2; // hoist = longitud del lado junto al asta
 
 // Coordenadas X e Y del centro del punto rojo de la bandera
 final float solarDiscCenterX = fly / 2.0f;
@@ -41,12 +38,7 @@ void main() {
     IO.println("Screen Solar Disc Radius: " + screenSolarDiscRadius);
 
 
-    float error = 0.5f;
-    // Segmentos que debe tener el círculo en función del radio y del error aceptable
-    int segments = (int) ceil(PI / acos(1.0f - error / screenSolarDiscRadius));
-    IO.println("Segmentos: " + segments);
-
-    // Vector 2D con las coordenadas X e Y del centro del circulo que representa el disco solar
+    // Vector 2D con las coordenadas X e Y del centro del círculo que representa el disco solar
     Vector2 center = new Vector2().x(screenSolarDiscCenterX).y(screenSolarDiscCenterY);
 
     InitWindow(screenWidth, screenHeight, "Bandera de Japón en RayLib");
@@ -59,12 +51,8 @@ void main() {
          * en el centro de la pantalla
          * cuyo diámetro sea 3/5 del asta de la bandera
          */
-        //DrawCircle(screenSolarDiscCenterX, screenSolarDiscCenterY, screenSolarDiscRadius, RED);
-
-        /*
-        Dibujar un círculo completo si dibujamos un sector de 360 grados
-         */
-        DrawCircleSector(center, screenSolarDiscRadius, 0.0f, 360.0f, segments, RED);
+        // Usamos la función DrawCircleV, la cual recibe como argumento el vector2D
+        DrawCircleV(center, screenSolarDiscRadius, RED);
         EndDrawing();
     }
     CloseWindow();

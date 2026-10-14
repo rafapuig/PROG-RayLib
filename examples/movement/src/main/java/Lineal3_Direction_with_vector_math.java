@@ -15,13 +15,13 @@ final float initialPosY = screenHeight / 2f;
 /**
  * Speed es la medida escalar de la velocidad,
  * pero necesitamos calcular el vector Velocity,
- * <p>
+ *
  * Velocity es una medida vectorial, (2D en este caso)
  * que dependerá del vector de la dirección 2D
- * <p>
+ *
  * Velocity = direction * speed
  */
-float speed = 200; // pixels por segundo
+float speed = 200f; // pixels por segundo
 /**
  * Los ángulos positivos tiene el sentido de agujas del reloj (negativos contra las agujas del reloj)
  * 0 grados -- derecha
@@ -29,7 +29,7 @@ float speed = 200; // pixels por segundo
  * 180 grados -- izquierda
  * 270 grados -- arriba (equivale a -90)
  */
-float angle = 30;
+float angle = 30f;
 
 void main() {
 
@@ -41,11 +41,13 @@ void main() {
 
     final Vector2 right = newVector2(1, 0);
 
+    // Rotar un vector con la función de rotation de vectores de Raylib
     Vector2 direction = Vector2Rotate(
             right,
             (float) Math.toRadians(angle)
     );
 
+    // Escalar un vector mediante la funcion de escalado de vectores de Raylib
     Vector2 velocity = Vector2Scale(direction, speed);
 
     IO.println(velocity.x() + " - " + velocity.y());
@@ -53,7 +55,7 @@ void main() {
     while (!WindowShouldClose()) {
         // Update
         float deltaTime = GetFrameTime();
-        posX += velocity.x() * deltaTime; // El tiempo que dura en frame  es la inversa de  FPS (1 / FPS)
+        posX += velocity.x() * deltaTime; // El tiempo que dura un frame es la inversa de FPS (1 / FPS)
         posX %= screenWidth;
         posY += velocity.y() * deltaTime;
         posY %= screenHeight;

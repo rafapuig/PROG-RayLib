@@ -31,9 +31,7 @@ public final class Assets {
 
         Texture cached = textures.get(key);
 
-        if (cached != null) {
-            return cached;
-        }
+        if (cached != null) return cached;
 
         try (InputStream input = getResource(resource)) {
 
@@ -56,10 +54,7 @@ public final class Assets {
             return texture;
 
         } catch (IOException e) {
-            throw new RuntimeException(
-                    "Error leyendo el recurso: " + resource,
-                    e
-            );
+            throw new RuntimeException("Error leyendo el recurso: " + resource, e);
         }
     }
 
@@ -78,9 +73,7 @@ public final class Assets {
 
         Texture cached = textures.get(key);
 
-        if (cached != null) {
-            return cached;
-        }
+        if (cached != null) return cached;
 
         if (!resource.toLowerCase().endsWith(".svg")) {
             return loadTexture(resource);
@@ -111,10 +104,7 @@ public final class Assets {
             return texture;
 
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Error cargando SVG: " + resource,
-                    e
-            );
+            throw new RuntimeException("Error cargando SVG: " + resource, e);
         }
     }
 
@@ -141,19 +131,13 @@ public final class Assets {
                 (float) height
         );
 
-        ByteArrayOutputStream output =
-                new ByteArrayOutputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        TranscoderInput input =
-                new TranscoderInput(svg);
+        TranscoderInput input = new TranscoderInput(svg);
 
-        TranscoderOutput transcoderOutput =
-                new TranscoderOutput(output);
+        TranscoderOutput transcoderOutput = new TranscoderOutput(output);
 
-        transcoder.transcode(
-                input,
-                transcoderOutput
-        );
+        transcoder.transcode(input, transcoderOutput);
 
         return output.toByteArray();
     }
@@ -163,20 +147,14 @@ public final class Assets {
     // Obtener recurso de resources
     // ---------------------------------------------------------
 
-    private static InputStream getResource(
-            String resource
-    ) {
+    private static InputStream getResource(String resource) {
 
-        InputStream input =
-                Assets.class
-                        .getClassLoader()
-                        .getResourceAsStream(resource);
+        InputStream input = Assets.class
+                .getClassLoader()
+                .getResourceAsStream(resource);
 
-        if (input == null) {
-            throw new RuntimeException(
-                    "No se encontró el recurso: " + resource
-            );
-        }
+        if (input == null)
+            throw new RuntimeException("No se encontró el recurso: " + resource);
 
         return input;
     }
@@ -186,17 +164,12 @@ public final class Assets {
     // Obtener extensión
     // ---------------------------------------------------------
 
-    private static String getExtension(
-            String resource
-    ) {
+    private static String getExtension(String resource) {
 
         int dot = resource.lastIndexOf('.');
 
-        if (dot == -1) {
-            throw new IllegalArgumentException(
-                    "El recurso no tiene extensión: " + resource
-            );
-        }
+        if (dot == -1)
+            throw new IllegalArgumentException("El recurso no tiene extensión: " + resource);
 
         return resource
                 .substring(dot)
@@ -208,18 +181,9 @@ public final class Assets {
     // Comprobar imagen
     // ---------------------------------------------------------
 
-    private static void checkImage(
-            Image image,
-            String resource
-    ) {
-
-        if (image == null ||
-                image.data() == null) {
-
-            throw new RuntimeException(
-                    "No se pudo cargar la imagen: "
-                            + resource
-            );
+    private static void checkImage(Image image, String resource) {
+        if (image == null || image.data() == null) {
+            throw new RuntimeException("No se pudo cargar la imagen: " + resource);
         }
     }
 

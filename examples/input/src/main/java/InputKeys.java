@@ -24,10 +24,10 @@ void main() {
         /**
          * Existe un problema con este sistema
          * Cuando pulsamos a la vez dos teclas para movimiento horizontal y vertical
-         * la bola se mueve el diagonal y se mueve más deprisa
+         * la bola se mueve en diagonal y se mueve más deprisa
          * Cuando lo hace en vertical o en horizontal únicamente el avance es 5 pixels por frame
          * Cuando lo hace en diagonal se mueve una distancia equivalente
-         * a la hipotenusa de un rectangulo de 5 * 5
+         * a la hipotenusa de un rectángulo de 5 * 5
          * h = sqrt(5^2 + 5^2) = sqrt(25 + 25) = sqrt(50) = 7,07
          */
 

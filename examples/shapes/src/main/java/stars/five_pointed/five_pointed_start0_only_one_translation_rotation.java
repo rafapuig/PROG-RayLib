@@ -1,5 +1,3 @@
-import com.raylib.Raylib;
-
 import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newColor;
 import static com.raylib.Helpers.newVector2;
@@ -10,8 +8,6 @@ final int screenWidth = screenHeight; // * 16 / 9;
 
 // Five-pointed star (estrella de cinco puntas)
 final int NUM_POINTS = 5;
-final Vector2 outerVertices = new Vector2(NUM_POINTS);
-final Vector2 innerVertices = new Vector2(NUM_POINTS);
 
 final float START_ANGLE_DEGREES = 90f;
 final float ANGLE_BETWEEN_TIPS_DEGREES = 360f / NUM_POINTS; // 72º
@@ -21,6 +17,10 @@ final float RADIUS_RATIO_OUTER_ANGLE_DEGREES = (180f - ANGLE_BETWEEN_TIPS_DEGREE
 final float INNER_TO_OUTER_RADIUS_RATIO =
         (float) (Math.sin(Math.toRadians(RADIUS_RATIO_INNER_ANGLE_DEGREES))
                 / Math.sin(Math.toRadians(RADIUS_RATIO_OUTER_ANGLE_DEGREES)));
+
+
+final Vector2 outerVertices = new Vector2(NUM_POINTS);
+final Vector2 innerVertices = new Vector2(NUM_POINTS);
 
 final float outerRadius = 300f;
 final float innerRadius = outerRadius * INNER_TO_OUTER_RADIUS_RATIO;
@@ -35,26 +35,27 @@ void main() {
     // Generar la estrella de 5 puntas en el punto origen (0,0) como centro
 
     // Angulo inicial del primer vértice exterior (punta)
-    float outerVertexAngle = -START_ANGLE_DEGREES;
+    float outerVertexAngle = START_ANGLE_DEGREES;
 
     // Para cada punta de la estrella
     for (int i = 0; i < NUM_POINTS; i++) {
 
+        // Usamos el negativo porque hacemos el giro en sentido antihorario (de derecha a izquierda)
         outerVertices.position(i).put(
-                Vector2Rotate(Vector2UnitX(), (float) Math.toRadians(outerVertexAngle)));
+                Vector2Rotate(Vector2UnitX(), (float) -Math.toRadians(outerVertexAngle)));
 
         /* El punto interior o valle se encuentra avanzando en sentido horario 36º */
-        final float innerVertexAngle = outerVertexAngle + ANGLE_BETWEEN_VERTICES_DEGREES;
+        final float innerVertexAngle = outerVertexAngle - ANGLE_BETWEEN_VERTICES_DEGREES;
 
         innerVertices.position(i).put(
-                Vector2Rotate(Vector2UnitX(), (float) Math.toRadians(innerVertexAngle)));
+                Vector2Rotate(Vector2UnitX(), (float) -Math.toRadians(innerVertexAngle)));
 
         /* El siguiente punto se encuentra avanzando un arco de 360/5 grados
         entre dos puntas de estrella consecutivas en sentido horario (En Raylib se suma) */
-        outerVertexAngle += ANGLE_BETWEEN_TIPS_DEGREES; // 72º
+        outerVertexAngle -= ANGLE_BETWEEN_TIPS_DEGREES; // 72º
     }
 
-    // Angulo de rotation de la figura de la estrella
+    // Angulo de rotation (en sentido horario) de la figura de la estrella
     float rotationAngle = 20;
 
     // Rotar
@@ -91,7 +92,7 @@ void main() {
         //Dibujar la circunferencia exterior
         if (debugMode) DrawCircleLinesV(starCenterPosition, outerRadius, LIGHTGRAY);
 
-        // Dibujar la estrella en sentido horario
+        // Dibujar la estrella recorriendo las puntas en sentido horario
         for (int i = 0; i < NUM_POINTS; i++) { // Por cada punto (pico) de la estrella
             final Vector2 innerVertex = innerVertices.position(i).getPointer();
             final Vector2 outerVertex = outerVertices.position(i).getPointer();
