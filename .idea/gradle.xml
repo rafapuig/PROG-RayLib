@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/flags/SpainFlag" />
             <option value="$PROJECT_DIR$/flags/USAFlag" />
             <option value="$PROJECT_DIR$/flags/UnionJack" />
+            <option value="$PROJECT_DIR$/programacion" />
           </set>
         </option>
       </GradleProjectSettings>
