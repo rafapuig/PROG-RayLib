@@ -25,6 +25,7 @@ final int PADDLE_SCREEN_MARGIN = 20;
 final float BALL_RADIUS = 22f;
 final float INITIAL_BALL_X = (float) (SCREEN_WIDTH / 2);
 final float INITIAL_BALL_Y = (float) (SCREEN_HEIGHT / 2);
+final float BALL_SPEED = 9f * 60;
 
 
 void main() {
@@ -37,7 +38,7 @@ void main() {
     float ballX = INITIAL_BALL_X;
     float ballY = INITIAL_BALL_Y;
 
-    float ballVelocityX = 9f * 60;
+    float ballVelocityX = BALL_SPEED;
     float ballVelocityY = ballVelocityX;
 
     float playerPaddleX = SCREEN_WIDTH - (PADDLE_WIDTH + PADDLE_SCREEN_MARGIN);
