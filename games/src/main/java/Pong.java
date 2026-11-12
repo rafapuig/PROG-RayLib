@@ -22,7 +22,7 @@ final float PADDLE_WIDTH = 25;
 final float PADDLE_HEIGHT = 150;
 final int PADDLE_SCREEN_MARGIN = 20;
 
-final float BALL_RADIUS = 25f;
+final float BALL_RADIUS = 22f;
 final float INITIAL_BALL_X = (float) (SCREEN_WIDTH / 2);
 final float INITIAL_BALL_Y = (float) (SCREEN_HEIGHT / 2);
 
@@ -187,8 +187,8 @@ void main() {
         DrawCircle((int) ballX, (int) ballY, BALL_RADIUS, YELLOWISH);
 
         if (!started) {
-            String startText = "Pulsa ENTER para empezar!";
-            final int startTextFontSize = 80;
+            final String startText = "Pulsa ENTER para empezar!";
+            final int startTextFontSize = 60;
             final int startTextWidth = MeasureText(startText, startTextFontSize);
             DrawText(startText,
                     (SCREEN_WIDTH - startTextWidth) / 2,
