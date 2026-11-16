@@ -22,18 +22,23 @@ void main() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
 
+                // Posición x,y de la esquina superior izquierda
+                // correspondiente al rectángulo de la fila i-ésima y columna j-ésima
                 final int posX = j * TILE_SIZE;
                 final int posY = i * TILE_SIZE;
 
+                // Determinar si la celda es par o no
                 final boolean isEvenCell = (i + j) % 2 == 0;
 
+                // Determinar el color de la celda en función de si es par o no
                 final Color cellColor = isEvenCell ? RAYWHITE : DARKGRAY;
 
+                // Dibujar la celda
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, cellColor);
-
 
                 // Texto de la celda (i,j)
                 final String cellText = String.format("%d", i + j);
+                // Calcular el ancho del texto
                 final int textWidth = MeasureText(cellText, FONT_SIZE);
 
                 // Desplazamiento horizontal para centrar horizontalmente el texto en la celda

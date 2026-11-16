@@ -1,5 +1,4 @@
-import static com.raylib.Colors.BLACK;
-import static com.raylib.Colors.ORANGE;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 final int SCREEN_HEIGHT = 1080;
@@ -7,7 +6,7 @@ final int SCREEN_WIDTH = SCREEN_HEIGHT * 16 / 9;
 
 void main() {
     final float ballRadius = 30f;
-    final float MAX_SPEED = 1500f;
+    final float MAX_SPEED = 1200f;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Bola a la posición del mouse con desaceleración");
     SetTargetFPS(GetMonitorRefreshRate(1));
@@ -30,8 +29,10 @@ void main() {
             final float targetY = GetMouseY();
 
             // Calculamos la distancia a recorrer para llegar al destino
+            // Mediante el teorema de Pitágoras (ya que se trata de la hipotenusa)
             float distance = (float) Math.sqrt(
-                    Math.pow(targetX - ballX, 2) + Math.pow(targetY - ballY, 2)
+                    Math.pow(targetX - ballX, 2) +
+                    Math.pow(targetY - ballY, 2)
             );
 
             // Velocidad inicial, la maxima, un impulso
@@ -44,10 +45,12 @@ void main() {
             V = Vo + a * t --> Vf = Vo + a * T --> 0 = Vo + aT
             T = -Vo / a
 
-            X = Xo + 1/2 a * t^2 --> Xf = Xo + 1/2 a * T^2
-            Xf - Xo = distance = 1/2 a * T^2
-            2 * distance = a * T^2 = a * -Vo / a * -Vo / a = -Vo * - Vo / a
-            a = Vo^2 / (2 * distance)
+            X = Xo + Vo * t + 1/2 a * t^2 --> Xf = Xo + Vo * T +  1/2 a * T^2
+            Xf - Xo = distance => 0 = 1/2 a * T^2 + Vo * T - distance
+            A = 1/2 * a
+            B = Vo
+            C = - distance
+            a = - Vo * Vo / (2 * distance)
              */
 
             // Aceleración inicial (deceleración, por tanto, negativa)
@@ -58,11 +61,12 @@ void main() {
             float totalTime = -ballSpeed / acceleration;
 
             // Actualizamos dirección de la bola
+            // (la dirección es un vector de modulo 1 = longitud 1)
             directionX = (targetX - ballX) / distance;
             directionY = (targetY - ballY) / distance;
         }
 
-        // Calculamos la velocidad direccional
+        // Calculamos la velocidad direccional en X e Y
         float velocityX = directionX * ballSpeed;
         float velocityY = directionY * ballSpeed;
 
@@ -70,15 +74,27 @@ void main() {
         ballX += velocityX * GetFrameTime();
         ballY += velocityY * GetFrameTime();
 
-        // Actualizamos la velocidad
+        // Actualizamos la velocidad V(i)  = V(i-1) + a * [t(i) - t(i-1)]
+        // La velocidad nueva es la velocidad del frame anterior
+        // más la aceleración multiplicada por el incremento de tiempo
         ballSpeed += acceleration * GetFrameTime();
+
+        // Si la velocidad se hace negativa la topamos a cero
         ballSpeed = ballSpeed > 0 ? ballSpeed : 0;
         //ballSpeed = Math.max(ballSpeed, 0);
 
         BeginDrawing();
         ClearBackground(BLACK);
 
+        // Dibujar la bola en la posición ballX, ballY como centro
         DrawCircle((int) ballX, (int) ballY, ballRadius, ORANGE);
+
+        DrawText(
+                String.format("%8.2f", ballSpeed),
+                20,20,
+                60,
+                RAYWHITE
+        );
 
         EndDrawing();
     }

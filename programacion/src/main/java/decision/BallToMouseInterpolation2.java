@@ -17,7 +17,7 @@ void main() {
 
     float ballSpeed = 800f;
 
-    float totalTime = 0f;
+    float totalTime = -1f;
     float elapsedTime = 0f;
 
     float originX = 0, originY = 0;
@@ -46,7 +46,7 @@ void main() {
             totalTime = (float) (distance / ballSpeed);
         }
 
-        if (elapsedTime < totalTime) {
+        if (elapsedTime <= totalTime) {
             IO.println("Elapsed Time: " + elapsedTime + " / " + totalTime);
 
             // Qué proporción del tiempo total ha trascurrido
