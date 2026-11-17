@@ -21,6 +21,7 @@ final float PADDLE_SPEED = 7f * 60;
 final float PADDLE_WIDTH = 25;
 final float PADDLE_HEIGHT = 150;
 final int PADDLE_SCREEN_MARGIN = 20;
+final  float PADDLE_ROUNDNESS = 0.8f;
 
 final float BALL_RADIUS = 22f;
 final float INITIAL_BALL_X = (float) (SCREEN_WIDTH / 2);
@@ -61,7 +62,7 @@ void main() {
         /* Update */
 
         if (input != 0) {
-            // Movel el paddle del jugador en función de la entrada
+            // Mover el paddle del jugador en función de la entrada
             playerPaddleY += input * PADDLE_SPEED * GetFrameTime();
 
             // Si el paddle del jugador se saliera por arriba
@@ -82,7 +83,7 @@ void main() {
         /* CPU Paddle Update */
         // Calcular la posición central en el eje Y del paddle
         float cpuPaddleCenterY = cpuPaddleY + PADDLE_HEIGHT / 2;
-        // Si está más abajo que la bola --> subir
+        // Sí está más abajo que la bola --> subir
         if (cpuPaddleCenterY > ballY) {
             cpuPaddleY -= PADDLE_SPEED * GetFrameTime();
         } else if (cpuPaddleCenterY < ballY) { // si está más arriba --> bajar
@@ -171,7 +172,7 @@ void main() {
         // Dibujar paddle CPU
         DrawRectangleRounded(
                 newRectangle(cpuPaddleX, cpuPaddleY, PADDLE_WIDTH, PADDLE_HEIGHT),
-                0.8f,
+                PADDLE_ROUNDNESS,
                 0,
                 WHITE
         );
@@ -179,7 +180,7 @@ void main() {
         // Dibujar paddle Player
         DrawRectangleRounded(
                 newRectangle(playerPaddleX, playerPaddleY, PADDLE_WIDTH, PADDLE_HEIGHT),
-                0.8f,
+                PADDLE_ROUNDNESS,
                 0,
                 WHITE
         );

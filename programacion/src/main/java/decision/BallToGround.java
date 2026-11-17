@@ -12,18 +12,17 @@ void main() {
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Bola que cae");
 
-    float ballX = SCREEN_WIDTH / 2f;
-    float ballY = SCREEN_HEIGHT / 2f;
+    float ballX = (float) (SCREEN_WIDTH / 2);
+    float ballY = (float) (SCREEN_HEIGHT / 2);
 
     float velocityX = 0f;
     float velocityY = 0f;
-    float speed = 0f;
 
     boolean started = false;
 
     while (!WindowShouldClose()) {
 
-        if(IsKeyPressed(KEY_SPACE)) {
+        if (IsKeyPressed(KEY_SPACE)) {
             started = true;
         }
 
@@ -55,12 +54,8 @@ void main() {
             }
         }
 
-        BeginDrawing();
-        ClearBackground(DARKBLUE);
 
-        DrawFPS(20, 20);
-
-        if(started) {
+        if (started) {
             // Actualizar la posición de la bola en función de su velocidad
             ballX += velocityX * GetFrameTime();
             ballY += velocityY * GetFrameTime();
@@ -81,17 +76,20 @@ void main() {
         }
 
         // Si la bola se va a salir por la izquierda
-        // y va en direccion de derecha a izquierda -> rebotar
+        // y va en dirección de derecha a izquierda -> rebotar
         if (ballX - BALL_RADIUS < 0 && velocityX < 0) {
             velocityX = -velocityX;
         }
 
+        /* Dibujar el frame */
+        BeginDrawing();
+        ClearBackground(DARKBLUE);
 
         DrawCircle((int) ballX, (int) ballY, BALL_RADIUS, ORANGE);
 
+        DrawFPS(20, 20);
         EndDrawing();
     }
-
 
     CloseWindow();
 }
