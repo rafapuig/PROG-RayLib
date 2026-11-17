@@ -12,6 +12,7 @@ void main() {
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Bola que cae");
 
+    // Posicional la bola inicialmente en el centro de la pantalla
     float ballX = (float) (SCREEN_WIDTH / 2);
     float ballY = (float) (SCREEN_HEIGHT / 2);
 
@@ -22,6 +23,7 @@ void main() {
 
     while (!WindowShouldClose()) {
 
+        /** Procesar la entrada */
         if (IsKeyPressed(KEY_SPACE)) {
             started = true;
         }
@@ -54,7 +56,7 @@ void main() {
             }
         }
 
-
+        /** Actualizar */
         if (started) {
             // Actualizar la posición de la bola en función de su velocidad
             ballX += velocityX * GetFrameTime();
@@ -64,24 +66,24 @@ void main() {
             // y está bajando -> rebotar
             if (ballY + BALL_RADIUS > SCREEN_HEIGHT && velocityY > 0) {
                 velocityY = -velocityY;
-            } else {
+            } else { // Si no, actualizar la velocidad vertical
                 velocityY += GRAVITY * GetFrameTime();
+            }
+
+            // Si la bola se va a salir por la derecha
+            // y va en dirección de izquierda a derecha -> rebotar
+            if (ballX + BALL_RADIUS > SCREEN_WIDTH && velocityX > 0) {
+                velocityX = -velocityX;
+            }
+
+            // Si la bola se va a salir por la izquierda
+            // y va en dirección de derecha a izquierda -> rebotar
+            if (ballX - BALL_RADIUS < 0 && velocityX < 0) {
+                velocityX = -velocityX;
             }
         }
 
-        // Si la bola se va a salir por la derecha
-        // y va en dirección de izquierda a derecha -> rebotar
-        if (ballX + BALL_RADIUS > SCREEN_WIDTH && velocityX > 0) {
-            velocityX = -velocityX;
-        }
-
-        // Si la bola se va a salir por la izquierda
-        // y va en dirección de derecha a izquierda -> rebotar
-        if (ballX - BALL_RADIUS < 0 && velocityX < 0) {
-            velocityX = -velocityX;
-        }
-
-        /* Dibujar el frame */
+        /** Dibujar el frame */
         BeginDrawing();
         ClearBackground(DARKBLUE);
 
