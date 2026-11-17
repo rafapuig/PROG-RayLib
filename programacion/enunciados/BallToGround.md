@@ -56,11 +56,11 @@ $$
 
 Donde:
 
-- \(Y_0\): posición vertical inicial.
-- \(Y_f\): posición vertical final.
-- \(V_0\): velocidad vertical inicial.
-- \(g\): aceleración de la gravedad.
-- \(t\): tiempo transcurrido.
+- $Y_0$: posición vertical inicial.
+- $Y_f$: posición vertical final.
+- $V_0$: velocidad vertical inicial.
+- $g$: aceleración de la gravedad.
+- $t$: tiempo transcurrido.
 
 La velocidad vertical en cualquier instante se calcula mediante:
 
