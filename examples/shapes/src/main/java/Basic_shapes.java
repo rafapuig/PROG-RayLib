@@ -1,14 +1,9 @@
 /**
  * https://www.raylib.com/cheatsheet/cheatsheet.html
  */
-
-import com.raylib.Colors;
-import com.raylib.Helpers;
-
 import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 import static com.raylib.Helpers.*;
-
 
 final int screenHeight = 1080;
 final int screenWidth = screenHeight * 16 / 9;
