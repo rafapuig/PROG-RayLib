@@ -36,6 +36,7 @@ void main() throws IOException {
     InitWindow((int) (SCREEN_WIDTH * SCALE), (int) (SCREEN_HEIGHT * SCALE), "Ejemplo de sprite");
     final int frameRate = GetMonitorRefreshRate(GetCurrentMonitor());
     SetTargetFPS(frameRate);
+    HideCursor();
 
     final Texture characterTexture = AssetManager.loadTexture("character.png");
 
