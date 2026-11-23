@@ -62,14 +62,14 @@ void main() throws IOException {
         }
     }
 
-    final float actorWidth = playerSprites[0][0].width();
-    final float actorHeight = playerSprites[0][0].height();
-
-    final Vector2 position = newVector2((SCREEN_WIDTH - actorWidth) / 2, (SCREEN_HEIGHT - actorHeight) / 2);
+    final Vector2 position = newVector2(
+            (SCREEN_WIDTH - SPRITE_WIDTH) / 2f,
+            (SCREEN_HEIGHT - SPRITE_HEIGHT) / 2f
+    );
 
     final Rectangle player = newRectangle(
             position.x() * SCALE, position.y() * SCALE,
-            actorWidth * SCALE, actorHeight * SCALE);
+            SPRITE_WIDTH * SCALE, SPRITE_HEIGHT * SCALE);
 
     Rectangle playerCollisionRect = newRectangle(
             3 * SCALE, 0 + (TILE_SIZE + 3) * SCALE,
