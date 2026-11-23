@@ -5,14 +5,13 @@ import static org.bytedeco.javacpp.Loader.extractResource;
 final int SCREEN_HEIGHT = 1080;
 final int SCREEN_WIDTH = SCREEN_HEIGHT * 16 / 9;
 
-void main() throws IOException {
+void main() {
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de carga de textura");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
-    // Las texturas se cargan después de iniciar la ventana (contexto de OpenGL)
-    File file = extractResource("objects.png", null,null,null);
-    Texture texture = LoadTexture(file.getAbsolutePath());
+    // Las texturas se cargan en la GPU después de iniciar la ventana (contexto de OpenGL)
+    Texture texture = LoadTexture("assets/textures/character.png");
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -20,6 +19,7 @@ void main() throws IOException {
         DrawTexture(texture, 0, 0, WHITE);
         EndDrawing();
     }
+    // Las texturas se descargan de la GPU cuando termina el programa
     UnloadTexture(texture);
     CloseWindow();
 }

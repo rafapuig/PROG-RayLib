@@ -7,17 +7,17 @@ final int SCREEN_WIDTH = SCREEN_HEIGHT * 16 / 9;
 
 void main() throws IOException {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de textura escalada");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de textura con DrawTextureV");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     Texture texture = AssetManager.loadTexture("character.png");
 
-    Vector2 position = newVector2(0,0);
+    Vector2 position = newVector2(0, 0);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(LIGHTGRAY);
-        DrawTextureEx(texture, position, 0f,4f, WHITE);
+        DrawTextureV(texture, position, WHITE);
         EndDrawing();
     }
     UnloadTexture(texture);

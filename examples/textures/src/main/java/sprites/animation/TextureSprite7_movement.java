@@ -48,7 +48,10 @@ void main() throws IOException {
     final float actorWidth = sprites[0][0].width() * SCALE;
     final float actorHeight = sprites[0][0].height() * SCALE;
 
-    final Vector2 position = newVector2((SCREEN_WIDTH - actorWidth) / 2, (SCREEN_HEIGHT - actorHeight) / 2);
+    final Vector2 position = newVector2(
+            (SCREEN_WIDTH - actorWidth) / 2,
+            (SCREEN_HEIGHT - actorHeight) / 2
+    );
 
     final Rectangle actor = newRectangle(
             position.x(), position.y(),

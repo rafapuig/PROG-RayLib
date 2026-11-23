@@ -15,7 +15,7 @@ final float SCALE = 24f;
 
 void main() throws IOException {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite (varios sprites)");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     Texture texture = AssetManager.loadTexture("character.png");

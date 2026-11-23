@@ -17,7 +17,7 @@ final float SCALE = 24f;
 
 void main() throws IOException {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite (con bucle)");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     Texture texture = AssetManager.loadTexture("character.png");
@@ -26,7 +26,8 @@ void main() throws IOException {
 
     for (int i = 0; i < SPRITE_FRAMES; i++) {
         sprites[i] = newRectangle(
-                SPRITE_OFFSET_X + SPRITE_WIDTH * i, SPRITE_OFFSET_Y,
+                SPRITE_OFFSET_X + SPRITE_WIDTH * i,
+                SPRITE_OFFSET_Y,
                 SPRITE_WIDTH, SPRITE_HEIGHT
         );
     }

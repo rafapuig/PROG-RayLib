@@ -33,17 +33,18 @@ void main() throws IOException {
         DrawTextureRec(texture, sprite, position, WHITE);
         EndTextureMode();
 
-        // Calculate scale
+        // Calcular el factor de escala
         float scale = Math.min(
                 (float) GetScreenWidth() / VIRTUAL_WIDTH,
                 (float) GetScreenHeight() / VIRTUAL_HEIGHT
         );
 
-        // Calculate destination dimensions
+        // Calcular las dimensiones de destino
+        // manteniendo la relación de aspecto
         float width = VIRTUAL_WIDTH * scale;
         float height = VIRTUAL_HEIGHT * scale;
 
-        // Center the virtual screen
+        // Centrar la pantalla virtual
         float x = (GetScreenWidth() - width) / 2;
         float y = (GetScreenHeight() - height) / 2;
 
@@ -51,15 +52,16 @@ void main() throws IOException {
         ClearBackground(BLACK);
 
         /**
-         * El eje vertical se invierte al dibujar un RenderTexture.         *
-         * Por eso utilizamos -virtualHeight en el rectángulo source. Es necesario para que la imagen aparezca correctamente orientada
+         * El eje vertical se invierte al dibujar un RenderTexture.
+         * Por eso utilizamos -virtualHeight en el rectángulo source.
+         * Es necesario para que la imagen aparezca correctamente orientada
          */
         DrawTexturePro(
                 renderTexture.texture(),
                 newRectangle(0, 0, VIRTUAL_WIDTH, -VIRTUAL_HEIGHT),
                 newRectangle(x, y, width, height),
-                newVector2(0, 0),
-                0,
+                Vector2Zero(),
+                0f,
                 WHITE
         );
 

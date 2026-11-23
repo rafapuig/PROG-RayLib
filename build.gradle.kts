@@ -12,13 +12,13 @@ repositories {
 subprojects {
     plugins.withId("java") {
         dependencies {
-            implementation("uk.co.electronstudio.jaylib:jaylib:6.0.+")
+            implementation("uk.co.electronstudio.jaylib:jaylib:6.2.+")
         }
     }
 
     plugins.withId("org.jetbrains.kotlin.jvm") {
         dependencies {
-            add("implementation", "uk.co.electronstudio.jaylib:jaylib:6.0.+")
+            add("implementation", "uk.co.electronstudio.jaylib:jaylib:6.2.+")
         }
     }
 }

@@ -96,19 +96,23 @@ void main() throws IOException {
             player.y(0);
         }
 
-        framesCounter++;
+
+        boolean isMoving = Vector2Equals(Vector2Zero(), direccion) == 0; // Cero es false
+        boolean isIdleFrame = currentAnimationFrame % 2 == 0;
+
+        // Si se está moviendo o no ha llegado a un frame de reposo este frame cuenta para la animación
+        if (isMoving || !isIdleFrame) {
+            framesCounter++;
+        } else { // Si ya no se mueve y ha llegado al frame de reposo
+            // Lo dejamos a punto de iniciar el frame de movimiento
+            framesCounter = (frameRate / ANIMATION_FRAMES_SPEED) - 1;
+        }
 
         if (framesCounter >= frameRate / ANIMATION_FRAMES_SPEED) {
             framesCounter = 0;
 
-            boolean isMoving = Vector2Equals(Vector2Zeros(), input) == 0;
-            boolean isIdleFrame = currentAnimationFrame % 2 != 0;
-
-            if (isMoving || isIdleFrame) {
-
-                currentAnimationFrame++;
-                if (currentAnimationFrame >= SPRITE_ANIMATION_FRAMES) currentAnimationFrame = 0;
-            }
+            currentAnimationFrame++;
+            if (currentAnimationFrame >= SPRITE_ANIMATION_FRAMES) currentAnimationFrame = 0;
         }
 
         var actorSprite = sprites[orientation][currentAnimationFrame];

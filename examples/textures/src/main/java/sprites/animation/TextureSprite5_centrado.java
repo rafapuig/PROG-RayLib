@@ -19,13 +19,13 @@ int ANIMATION_FRAMES_SPEED = 8; // Frames por segundo de la animación
 
 void main() throws IOException {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite");
-    int frameRate = GetMonitorRefreshRate(1);
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de animación mediante sprites (centrado)");
+    final int frameRate = GetMonitorRefreshRate(1);
     SetTargetFPS(frameRate);
 
-    Texture texture = AssetManager.loadTexture("character.png");
+    final Texture texture = AssetManager.loadTexture("character.png");
 
-    Rectangle[] sprites = new Rectangle[SPRITE_ANIMATION_FRAMES];
+    final Rectangle[] sprites = new Rectangle[SPRITE_ANIMATION_FRAMES];
 
     for (int i = 0; i < SPRITE_ANIMATION_FRAMES; i++) {
         sprites[i] = newRectangle(
@@ -34,11 +34,17 @@ void main() throws IOException {
         );
     }
 
-    Vector2 position = newVector2(0, 0);
+    final float actorWidth = sprites[0].width() * SCALE;
+    final float actorHeight = sprites[0].height() * SCALE;
 
-    Rectangle actor = newRectangle(
+    final Vector2 position = newVector2(
+            (SCREEN_WIDTH - actorWidth) / 2,
+            (SCREEN_HEIGHT - actorHeight) / 2
+    );
+
+    final Rectangle actor = newRectangle(
             position.x(), position.y(),
-            sprites[0].width() * SCALE, sprites[0].height() * SCALE);
+            actorWidth, actorHeight);
 
 
     int framesCounter = 0;
@@ -54,6 +60,7 @@ void main() throws IOException {
             currentAnimationFrame++;
             if (currentAnimationFrame >= SPRITE_ANIMATION_FRAMES) currentAnimationFrame = 0;
         }
+
 
         BeginDrawing();
         ClearBackground(LIGHTGRAY);

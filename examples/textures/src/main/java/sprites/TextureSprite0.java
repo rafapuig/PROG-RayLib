@@ -13,7 +13,7 @@ final int SPRITE_HEIGHT = 24;
 
 void main() throws IOException {
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite con DrawTextureRec");
     SetTargetFPS(GetMonitorRefreshRate(1));
 
     Texture texture = AssetManager.loadTexture("character.png");
