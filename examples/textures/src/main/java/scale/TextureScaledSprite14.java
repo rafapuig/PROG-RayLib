@@ -40,13 +40,18 @@ final int POND_SIZE = POND_TILES_SIZE * TILE_SIZE;
 final int POND_SPRITE_OFFSET_X = 22 * TILE_SIZE;
 final int POND_SPRITE_OFFSET_Y = 9 * TILE_SIZE;
 
-final int GRASS_SPRITE_OFFSET_X = 0 * TILE_SIZE;
-final int GRASS_SPRITE_OFFSET_Y = 0 * TILE_SIZE;
+final int GRASS_SPRITE_OFFSET = 0 + OVERWORLD_COLS * 0;
+final int FLOOR1_SPRITE_OFFSET = 12 + OVERWORLD_COLS * 13;
+final int FLOOR2_SPRITE_OFFSET = 12 + OVERWORLD_COLS * 14;
+final int HEAVY_GRASS1_SPRITE_OFFSET = 12 + OVERWORLD_COLS * 5;
+final int HEAVY_GRASS2_SPRITE_OFFSET = 12 + OVERWORLD_COLS * 6;
 
 
 void main() throws IOException {
 
+    SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ejemplo de sprite");
+    //ToggleFullscreen();
     final int frameRate = GetMonitorRefreshRate(1);
     SetTargetFPS(frameRate);
 
@@ -93,18 +98,11 @@ void main() throws IOException {
         }
     }
 
-    final Rectangle grassSprite = newRectangle(
-            GRASS_SPRITE_OFFSET_X, GRASS_SPRITE_OFFSET_Y,
-            TILE_SIZE, TILE_SIZE
-    );
-
-
-
-    final Rectangle floorSprite1 = overworldSprites[12 + 40 * 13]; //newRectangle(TILE_SIZE * 12, TILE_SIZE * 13, TILE_SIZE, TILE_SIZE);
-    final Rectangle floorSprite2 = overworldSprites[12 + 40 * 14]; //newRectangle(TILE_SIZE * 12, TILE_SIZE * 14, TILE_SIZE, TILE_SIZE);
-
-    final Rectangle grassSprite1 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 5, TILE_SIZE, TILE_SIZE);
-    final Rectangle grassSprite2 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 6, TILE_SIZE, TILE_SIZE);
+    final Rectangle grassSprite = overworldSprites[GRASS_SPRITE_OFFSET];
+    final Rectangle floorSprite1 = overworldSprites[FLOOR1_SPRITE_OFFSET];
+    final Rectangle floorSprite2 = overworldSprites[FLOOR2_SPRITE_OFFSET];
+    final Rectangle grassSprite1 = overworldSprites[HEAVY_GRASS1_SPRITE_OFFSET];
+    final Rectangle grassSprite2 = overworldSprites[HEAVY_GRASS2_SPRITE_OFFSET];
 
     //final Rectangle mapTile = newRectangle(0, 0, TILE_SIZE, TILE_SIZE);
     final Vector2 mapTile = newVector2(0, 0);
@@ -143,6 +141,10 @@ void main() throws IOException {
 
     while (!WindowShouldClose()) {
 
+        if(IsKeyPressed(KEY_F11)) {
+            ToggleFullscreen();
+        }
+
         Vector2 input = Vector2Zero();
 
         if (IsKeyDown(KEY_UP)) {
@@ -163,7 +165,7 @@ void main() throws IOException {
         }
 
         if (lastOrientation != playerOrientation) {
-            playerCurrentFrame = 0;
+            playerCurrentFrame = 1; // Empezar por el de movimiento
         }
         lastOrientation = playerOrientation;
 
