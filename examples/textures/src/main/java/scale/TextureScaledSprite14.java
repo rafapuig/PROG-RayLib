@@ -5,7 +5,7 @@ import static com.raylib.Raylib.*;
 
 final int TILE_SIZE = 16;
 
-final int TILE_ROWS = 9;
+final int TILE_ROWS = 18;
 final int TILE_COLS = TILE_ROWS * 16 / 9;
 
 final int SCREEN_HEIGHT = 1080;
@@ -29,8 +29,10 @@ final int UP = 2;
 final int RIGHT = 1;
 final int LEFT = 3;
 
-final float SPEED = 100;
+final float SPEED = 150;
 
+final int OVERWORLD_COLS = 40;
+final int OVERWORLD_ROWS = 36;
 
 final int POND_ANIMATION_FRAMES = 3;
 final int POND_TILES_SIZE = 3;
@@ -83,18 +85,29 @@ void main() throws IOException {
 
 
     final Texture overworldTexture = AssetManager.loadTexture("Overworld.png");
+
+    final Rectangle[] overworldSprites = new Rectangle[OVERWORLD_ROWS * OVERWORLD_COLS];
+    for (int i = 0; i < OVERWORLD_ROWS; i++) {
+        for (int j = 0; j < OVERWORLD_COLS; j++) {
+            overworldSprites[i * OVERWORLD_COLS + j] = newRectangle(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        }
+    }
+
     final Rectangle grassSprite = newRectangle(
             GRASS_SPRITE_OFFSET_X, GRASS_SPRITE_OFFSET_Y,
             TILE_SIZE, TILE_SIZE
     );
 
-    final Rectangle floorSprite1 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 13, TILE_SIZE, TILE_SIZE);
-    final Rectangle floorSprite2 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 14, TILE_SIZE, TILE_SIZE);
+
+
+    final Rectangle floorSprite1 = overworldSprites[12 + 40 * 13]; //newRectangle(TILE_SIZE * 12, TILE_SIZE * 13, TILE_SIZE, TILE_SIZE);
+    final Rectangle floorSprite2 = overworldSprites[12 + 40 * 14]; //newRectangle(TILE_SIZE * 12, TILE_SIZE * 14, TILE_SIZE, TILE_SIZE);
 
     final Rectangle grassSprite1 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 5, TILE_SIZE, TILE_SIZE);
     final Rectangle grassSprite2 = newRectangle(TILE_SIZE * 12, TILE_SIZE * 6, TILE_SIZE, TILE_SIZE);
 
-    final Rectangle mapTile = newRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+    //final Rectangle mapTile = newRectangle(0, 0, TILE_SIZE, TILE_SIZE);
+    final Vector2 mapTile = newVector2(0, 0);
 
 
     final Rectangle[] pondSprites = new Rectangle[POND_ANIMATION_FRAMES];
@@ -106,10 +119,10 @@ void main() throws IOException {
         );
     }
 
-    Vector2 pondLocation = newVector2(9, 3);
+    Vector2 pondLocation = newVector2(9 * TILE_SIZE, 3 * TILE_SIZE);
 
     Rectangle pond = newRectangle(
-            pondLocation.x() * TILE_SIZE, pondLocation.y() * TILE_SIZE,
+            pondLocation.x(), pondLocation.y(),
             pondSprites[0].width(), pondSprites[0].height()
     );
 
@@ -120,6 +133,7 @@ void main() throws IOException {
     int framesCounter = 0;
     int playerCurrentFrame = 0;
     int playerOrientation = DOWN;
+    int lastOrientation = playerOrientation;
 
     int pondCurrentFrame = 0;
 
@@ -147,6 +161,11 @@ void main() throws IOException {
             input.x(input.x() + 1);
             playerOrientation = RIGHT;
         }
+
+        if (lastOrientation != playerOrientation) {
+            playerCurrentFrame = 0;
+        }
+        lastOrientation = playerOrientation;
 
         final Vector2 direccion = Vector2Normalize(input);
 
@@ -203,18 +222,21 @@ void main() throws IOException {
         ClearBackground(DARKBROWN);
 
         for (int i = 0; i < TILE_ROWS; i++) {
-            for (int j = 0; j <= TILE_COLS; j++) {
+            for (int j = 0; j < TILE_COLS; j++) {
 
                 mapTile.x(j * TILE_SIZE);
                 mapTile.y(i * TILE_SIZE);
 
-                var sprite = (i + j) % 2 == 0 ? floorSprite1 : floorSprite2;
+                //var sprite = overworldSprites[(i * 40 + j) % (36 * 40)]; //  (i + j) % 2 == 0 ? floorSprite1 : floorSprite2;
+                var sprite =  (i + j) % 2 == 0 ? floorSprite1 : floorSprite2;
 
-                DrawTexturePro(overworldTexture, sprite, mapTile, vector2Zero, 0f, WHITE);
+                //DrawTexturePro(overworldTexture, sprite, mapTile, vector2Zero, 0f, WHITE);
+                DrawTextureRec(overworldTexture, sprite, mapTile, WHITE);
             }
         }
 
-        DrawTexturePro(overworldTexture, pondSprite, pond, vector2Zero, 0f, WHITE);
+        //DrawTexturePro(overworldTexture, pondSprite, pond, vector2Zero, 0f, WHITE);
+        DrawTextureRec(overworldTexture, pondSprite, pondLocation, WHITE);
 
         DrawTexturePro(characterTexture, playerSprite, player, vector2Zero, 0f, WHITE);
         //DrawTextureRec(characterTexture, playerSprite, newVector2(player.x(), player.y()), WHITE);
