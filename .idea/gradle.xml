@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/examples/input" />
             <option value="$PROJECT_DIR$/examples/movement" />
             <option value="$PROJECT_DIR$/examples/shapes" />
+            <option value="$PROJECT_DIR$/examples/textures" />
             <option value="$PROJECT_DIR$/flags" />
             <option value="$PROJECT_DIR$/flags/GermanyFlag" />
             <option value="$PROJECT_DIR$/flags/JapanFlag" />
