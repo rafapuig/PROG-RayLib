@@ -110,9 +110,9 @@ void main() throws IOException {
 
         if (framesCounter >= frameRate / ANIMATION_FRAMES_SPEED) {
             framesCounter = 0;
-
             currentAnimationFrame++;
-            if (currentAnimationFrame >= SPRITE_ANIMATION_FRAMES) currentAnimationFrame = 0;
+            currentAnimationFrame %= SPRITE_ANIMATION_FRAMES;
+            //if (currentAnimationFrame >= SPRITE_ANIMATION_FRAMES) currentAnimationFrame = 0;
         }
 
         var actorSprite = sprites[orientation][currentAnimationFrame];
@@ -122,6 +122,8 @@ void main() throws IOException {
         ClearBackground(DARKBROWN);
 
         DrawTexturePro(texture, actorSprite, player, Vector2Zero(), 0f, WHITE);
+
+        DrawFPS(20, 20);
 
         EndDrawing();
     }

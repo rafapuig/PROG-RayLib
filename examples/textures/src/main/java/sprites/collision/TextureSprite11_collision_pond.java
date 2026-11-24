@@ -232,6 +232,8 @@ void main() throws IOException {
 
         DrawTexturePro(characterTexture, playerSprite, player, vector2Zero, 0f, WHITE);
 
+        DrawFPS(20, 20);
+
         EndDrawing();
     }
 
